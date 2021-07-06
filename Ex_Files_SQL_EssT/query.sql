@@ -86,3 +86,46 @@ select
   case b when 1 then 'true' else 'false' end as boolB
   from booltest
 ;
+
+
+-- 4. Relationships --
+--accessing rlated tables
+select * from left;
+select * from right;
+
+select l.description
+  from left as l
+  join right as r on l.id = r.id
+  ;
+
+--relating multiple tables
+select ___
+  from customer as c
+  left join sale as s on s.customer_id = c.id
+  left join item as i on s.item_id = i.id
+
+
+-- 5. Strings --
+--length of a Strings
+select name, length(name) as len from city order by len desc, name;
+
+--selecting part of a String
+select substr('this string',6,3);
+
+select released,
+  substr(released,1,4) as year,
+  substr(released,6,2) as month,
+  substr(released,9,2) as day
+  from table;
+
+--removing space
+select trim('    string   ');
+select ltrim('    string   ');
+select rtrim('....string....', '.');
+
+--folding cases
+select lower('StRiNg'); --string
+select upper('sTring'); --STRING
+
+
+-- 6. Numbers --
