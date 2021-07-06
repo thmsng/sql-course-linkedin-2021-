@@ -129,3 +129,12 @@ select upper('sTring'); --STRING
 
 
 -- 6. Numbers --
+--numeric types
+--value types
+SELECT typeof();
+--integer division
+select 23/4,23%4;
+--rounding Numbers
+select round(3.322,2);
+
+-- 7. Dates and times
