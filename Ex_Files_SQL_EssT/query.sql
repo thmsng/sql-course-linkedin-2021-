@@ -138,3 +138,42 @@ select 23/4,23%4;
 select round(3.322,2);
 
 -- 7. Dates and times
+select datetime('now');
+select date('now');
+select time('now');
+
+-- 8. Aggregates --
+select region, count(*)
+  from Country
+  group by Region;
+
+--aggregating distinct values
+select count(distinct HeadOfState) from Country;
+
+--having vs where
+
+-- 9. Transactions --
+BEGIN TRANSACTION;
+INSERT INTO widgetSales ( inv_id, quan, price ) VALUES ( 1, 5, 500 );
+UPDATE widgetInventory SET onhand = ( onhand - 5 ) WHERE id = 1;
+END TRANSACTION;
+
+BEGIN TRANSACTION;
+INSERT INTO widgetInventory ( description, onhand ) VALUES ( 'toy', 25 );
+ROLLBACK;
+SELECT * FROM widgetInventory;
+
+-- 10. Triggers --
+
+--this create time stamp on new update without having the time on the insert query + add a log to the log table
+CREATE TRIGGER stampSale AFTER INSERT ON widgetSale
+    BEGIN
+        UPDATE widgetSale SET stamp = DATETIME('now') WHERE id = NEW.id;
+        UPDATE widgetCustomer SET last_order_id = NEW.id, stamp = DATETIME('now')
+            WHERE widgetCustomer.id = NEW.customer_id;
+        INSERT INTO widgetLog (stamp, event, username, tablename, table_id)
+            VALUES (DATETIME('now'), 'INSERT', 'TRIGGER', 'widgetSale', NEW.id);
+    END
+;
+
+-- 11. Views and subselects --
