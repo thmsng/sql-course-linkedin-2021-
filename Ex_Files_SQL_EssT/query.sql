@@ -177,3 +177,32 @@ CREATE TRIGGER stampSale AFTER INSERT ON widgetSale
 ;
 
 -- 11. Views and subselects --
+-- creating a subselect
+select co.Name, ss.CCode from (
+  select substr(a,1,2) as State, substr(a,3)  as Scode, substr(b,1,2) as Country, substr(b,3) as CCode from t) as ss
+  JOIN Country as co
+    on co.Code2= ss.Country
+;
+
+--searching within a result set
+select * from  album from album
+where a.id in (select ...);
+
+--creating a view
+CREATE VIEW trackView AS
+  SELECT id, album_id, title, track_number,
+    duration / 60 AS m, duration % 60 AS s FROM track;
+SELECT * FROM trackView;
+
+SELECT a.title AS album, a.artist, t.track_number AS seq, t.title, t.m, t.s
+  FROM album AS a
+  JOIN trackView AS t
+    ON t.album_id = a.id
+  ORDER BY a.title, t.track_number
+;
+
+DROP VIEW IF EXISTS trackView;
+
+
+-- 12. a simple CRUD application --
+--check CRUD folder
